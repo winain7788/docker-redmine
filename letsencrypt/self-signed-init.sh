@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 LE_DIR=$(pwd)
-REPO_DIR=$(dirname ${LE_DIR})
+REPO_DIR=${LE_DIR}
 CERTS=${REPO_DIR}/certs
 CERTS_DATA=${REPO_DIR}/certs-data
 

@@ -1,0 +1,4 @@
+certs/
+default.conf
+logs/
+mysql/
