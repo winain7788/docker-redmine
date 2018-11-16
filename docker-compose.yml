@@ -1,0 +1,39 @@
+version: '3'
+services:
+  v_serve_db:
+    image: mariadb
+    container_name: v_serve_db
+    volumes:
+      - ./mysql:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=db@zaq12wsx
+    ports:
+     - "3306:3306"
+    restart: always
+
+  v_serve_dbadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: v_serve_dbadmin
+    depends_on:
+      - v_serve_db
+    links:
+      - v_serve_db:db
+    restart: always
+
+  v_serve_proxy:
+    image: nginx:latest
+    container_name: v_serve_proxy
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+      - ./logs/nginx:/var/log/nginx
+      - ./certs:/etc/letsencrypt
+      - ./certs-data:/data/letsencrypt
+    depends_on:
+      - v_serve_dbadmin
+    links:
+      - v_serve_dbadmin
+    restart: always
+
