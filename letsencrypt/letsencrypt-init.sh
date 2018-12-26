@@ -4,7 +4,7 @@ LE_DIR=$(pwd)
 REPO_DIR=${LE_DIR}
 CERTS=${REPO_DIR}/certs
 CERTS_DATA=${REPO_DIR}/certs-data
-NGINX_CONTAINER=v_serve_proxy
+NGINX_CONTAINER=proxy
 
 _default_conf () {
     local OUTFILE=default.conf
