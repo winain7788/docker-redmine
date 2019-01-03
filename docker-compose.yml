@@ -1,12 +1,26 @@
 version: '3'
 services:
+  redmine:
+    image: redmine:3.4
+    container_name: redmine
+    volumes:
+      - ./redmine/config/configuration.yml:/usr/src/redmine/config/configuration.yml
+      - ./redmine/files:/usr/src/redmine/files
+    environment:
+      - REDMINE_DB_MYSQL=mariadb
+      - REDMINE_DB_PASSWORD=your-password
+    ports:
+      - "3000:3000"
+    restart: always
+
   mariadb:
     image: mariadb
     container_name: mariadb
     volumes:
       - ./mysql:/var/lib/mysql
     environment:
-      - MYSQL_ROOT_PASSWORD=yourpassword
+      - MYSQL_DATABASE=redmine
+      - MYSQL_ROOT_PASSWORD=your-password
     ports:
      - "3306:3306"
     restart: always
@@ -26,6 +40,7 @@ services:
     ports:
       - '80:80'
       - '443:443'
+      - '8443:8443'
     volumes:
       - ./nginx:/etc/nginx/conf.d
       - ./logs/nginx:/var/log/nginx
@@ -33,7 +48,9 @@ services:
       - ./certs-data:/data/letsencrypt
     depends_on:
       - dbadmin
+      - redmine
     links:
       - dbadmin
+      - redmine
     restart: always
 
