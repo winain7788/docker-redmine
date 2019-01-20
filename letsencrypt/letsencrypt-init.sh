@@ -70,8 +70,8 @@ rm -f ${REPO_DIR}/nginx/default.conf
 echo "INFO: update the nginx/proxy_ssl.conf file"
 echo "-  4:   server_name ${DOMAIN_NAME};"
 echo "- 19:   server_name               ${DOMAIN_NAME} www.${DOMAIN_NAME};"
-echo "- 46:   ssl_certificate           /etc/letsencrypt/live/${DOMAIN_NAME}/fullchain.pem;"
-echo "- 47:   ssl_certificate_key       /etc/letsencrypt/live/${DOMAIN_NAME}/privkey.pem;"
-echo "- 48:   ssl_trusted_certificate   /etc/letsencrypt/live/${DOMAIN_NAME}/chain.pem;"
+echo "- 40:   ssl_certificate           /etc/letsencrypt/live/${DOMAIN_NAME}/fullchain.pem;"
+echo "- 41:   ssl_certificate_key       /etc/letsencrypt/live/${DOMAIN_NAME}/privkey.pem;"
+echo "- 42:   ssl_trusted_certificate   /etc/letsencrypt/live/${DOMAIN_NAME}/chain.pem;"
 
 exit 0;
