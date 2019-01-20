@@ -5,8 +5,7 @@ Insall docker and docker-compose.
 ``` bash
 $ sudo apt update
 $ sudo apt upgrade
-$ sudo apt install docker.io
-$ sudo apt install docker-compose
+$ sudo apt install docker.io docker-compose
 ```
 
 Create "docker" user and also add your current user to docker group. This will make your login user able to execute "docker" and "docker-compose" commands.
