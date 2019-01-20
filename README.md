@@ -1,4 +1,4 @@
-## OS Prerequiste
+## OS Prerequiste Tasks
 This case refers to "Linux - Ubuntu 18LTS".
 
 Insall docker and docker-compose.
@@ -23,7 +23,7 @@ git clone https://github.com/winain7788/docker-redmine.git
 cd docker-redmine/
 ```
 
-## Network and Domain
+## Network and Domain Configurations
 In this case, we will use [Let's Encrypt SSL](https://letsencrypt.org/getting-started/). You will need to configure your domain name properly to proceed further steps.
 
 1) Add your domain to your DNS service, for example - "redmine.yourcompany.com". You will also need to add "www.redmine.yourcompany.com" to your DNS configuration, otherwise certbot will fail to verify your domain name.
@@ -32,7 +32,7 @@ In this case, we will use [Let's Encrypt SSL](https://letsencrypt.org/getting-st
 $ nslookup redmine.yourcompany.com
 $ nslookup www.redmine.yourcompany.com
 ```
-## Edit docker-compose.yml file
+## Edit docker-compose.yml File
 This step will tell you how to initialise docker-compose.yml file to specify your database password and your customised configurations e.g. email server.
 1) Open docker-compose.yml file using your prefer editor and specify your prefer password for database.
 ``` bash
@@ -107,7 +107,7 @@ INFO: update the nginx/proxy_ssl.conf file
 - 42:   ssl_trusted_certificate   /etc/letsencrypt/live/yourcompany.com/chain.pem;
 ```
 
-## Webserver Configuration
+## Webserver Configurations
 1) You will need to create a webserver configuration file by copying from the template.
 ``` bash
 $ cd nginx
@@ -116,56 +116,37 @@ $ cp proxy_ssl.conf_example proxy_ssl.conf
 2) Then edit the webserver configuration file - "proxy_ssl.conf" using any editor. Replace the server name and key files using the information from step 3 in SSL section. You will need to replace the value in line 60, 81, 82 and 83 using the same information from line 19, 40, 41 and 42.
 3) Now your Redmine configuration should be ready to start using the commands below.
 ``` bash
+$ docker-compose stop
+$ docker-compose up -d
+$ docker-compose ps
+```
+If you need a fresh Redmine installation, you are done now. However, you will need to proceed one more step below if you need to migrate your data from another Redmine instance.
+
+## Database Migration
+1) Backup your data from previous Redmine instance. Please refer to [Redmine Wiki](https://www.redmine.org/projects/redmine/wiki/RedmineBackupRestore) for details.
+2) Once you have your backup in hands. In this case, we use filename  "backup-migrate.sql". Put your "backup-migrate.sql" in "docker-redmine/mysql" folder then you are now ready to proceed migration.
+3) Enter the shell of database and execute the commands below. You will need to enter your database password from "Edit docker-compose.yml File" section.
+``` bash
+# docker exec -it mariadb bash
+# cd /var/lib/mysql
+# mysql -u root -p -D redmine < backup-migrate.sql
+# exit
+``` 
+3) Stop and start Redmine service again.
+``` bash
+$ docker-compose stop
 $ docker-compose up -d
 $ docker-compose ps
 ```
 
-## Database Migration
-docker exec -it mariadb bash
-vi docker-compose.yml 
-ls -lrt
-cd mysql/
-ls
-ls -lrt
-cd ..
-docker logs mariadb
-ls
-cd mysql/
-ls
-cd ..
-ls
-vi docker-compose.yml 
-docker-compose stop
-sudo rm -fr ./mysql/*
-ls -l
-docker image ls
-docker-compose up -d
-docker-compose ps
-docker-compose stop
-cd ../docker/docker-redmine/mysql/
-ls
-vi backup.sql 
-exit
-cd ../docker/
-ls
-cd docker-redmine/
-ls
-docker-compose up -d
-docker-compose ps
-docker-compose logs mariadb
-docker-compose logs redmine
-ls
-sudo mv backup.sql mysql/
-cd mysql/
-ls -l
-cd ..
-sudo mv backup-migrate.sql mysql/
-docker exec -it mariadb bash
-
-cp configuration.yml_example configuration.yml
-
-
-# Clean up
-docker container rm $(docker container ls -a -q)
-docker image prune
+## Service Access
+1) Redmine Service URL
+``` bash
+https://redmine.yourcompany.com
+```
+2) Database Admin URL
+``` bash
+https://redmine.yourcompany.com:8443
+```
+3) Make sure that you have configure your firewall properly to access these services (port 80, 443 and 8443).
 
