@@ -2,3 +2,6 @@ certs/
 default.conf
 logs/
 mysql/
+nginx/proxy_ssl.conf
+redmine/config/configuration.yml
+redmine/files/
