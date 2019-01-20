@@ -1,7 +1,7 @@
 ## OS Prerequiste Tasks
 This case refers to "Linux - Ubuntu 18LTS".
 
-1) Insall docker and docker-compose. The command will be different if you use another Linux distribution.
+1) Install docker and docker-compose. The command will be different if you use another Linux distribution.
 ``` bash
 $ sudo apt update
 $ sudo apt upgrade
