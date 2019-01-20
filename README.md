@@ -1,23 +1,24 @@
 ## OS Prerequiste Tasks
 This case refers to "Linux - Ubuntu 18LTS".
 
-Insall docker and docker-compose.
+1) Insall docker and docker-compose. The command will be different if you use another Linux distribution.
 ``` bash
 $ sudo apt update
 $ sudo apt upgrade
 $ sudo apt install docker.io docker-compose
 ```
 
-Create "docker" user and also add your current user to docker group. This will make your login user able to execute "docker" and "docker-compose" commands.
+2) Create "docker" user and also add your current user to docker group. This will make your login user able to execute "docker" and "docker-compose" commands.
 ``` bash
 $ sudo adduser --uid 116 --disabled-login --ingroup docker docker -q
 $ sudo usermod -a -G docker $USER
 $ sudo chfn -o umask=007 docker
-$ sudo chmod -R g+w .
+$ sudo chmod -R g+w /home/docker
 ``` 
 
-Clone "docker-redmine" project from GitHub.
+3) Clone "docker-redmine" project from GitHub.
 ``` bash
+cd /home/docker
 git clone https://github.com/winain7788/docker-redmine.git
 cd docker-redmine/
 ```
